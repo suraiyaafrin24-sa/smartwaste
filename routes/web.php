@@ -17,6 +17,8 @@ Route::get('/dashboard', function (Illuminate\Http\Request $request) {
     return redirect()->route('user.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
 // Admin Routes
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])->name('dashboard');

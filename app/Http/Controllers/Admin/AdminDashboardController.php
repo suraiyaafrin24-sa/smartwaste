@@ -15,19 +15,31 @@ class AdminDashboardController extends Controller
      */
     public function index()
     {
-        $stats = [
-            'total_users' => User::where('role', 'user')->count(),
-            'total_collectors' => User::where('role', 'waste_collector')->count(),
-            'pending_pickups' => WasteRequest::where('status', 'pending')->count(),
-            'completed_pickups' => WasteRequest::where('status', 'completed')->count(),
-        ];
+        $pendingCollections = WasteRequest::where('status', 'pending')->count();
 
-        $recentRequests = WasteRequest::with(['user', 'collector'])
+        $requestsCreatedToday = WasteRequest::whereDate('created_at', today())->count();
+
+        $todayCompletedCount = WasteRequest::whereIn('status', ['completed', 'collected'])
+            ->whereDate('updated_at', today())
+            ->count();
+
+        $activeStaffCount = User::where('role', 'waste_collector')->count();
+
+        $totalUsersCount = User::where('role', 'user')->count();
+
+        $latestRequests = WasteRequest::with(['user', 'collector'])
             ->orderBy('id', 'desc')
-            ->limit(5)
+            ->limit(10)
             ->get();
 
-        return view('admin.dashboard', compact('stats', 'recentRequests'));
+        return view('admin.dashboard', compact(
+            'pendingCollections',
+            'requestsCreatedToday',
+            'todayCompletedCount',
+            'activeStaffCount',
+            'totalUsersCount',
+            'latestRequests'
+        ));
     }
 
     /**

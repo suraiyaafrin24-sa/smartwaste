@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="mb-8 mt-2">
-        <h1 class="text-[28px] font-black tracking-tight text-gray-900 mb-1">Duty Roster Console</h1>
+        <h1 class="text-[28px] font-black tracking-tight text-gray-900 mb-1">Duty staff Console</h1>
         <p class="text-sm font-medium text-gray-500">Create weekly route schedules for waste zoning systems in Uttara.</p>
     </div>
 

@@ -82,11 +82,11 @@ class AdminDashboardController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
             'role' => 'required|string|in:user,waste_collector',
             'phone' => 'required|string|max:20',
-            'sector' => 'nullable|string',
-            'road' => 'nullable|string',
+            'sector' => 'required|string',
+            'road' => 'required|string',
             'address' => 'nullable|string|max:500',
         ]);
 

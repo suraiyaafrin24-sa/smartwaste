@@ -72,7 +72,7 @@
                     <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Administrator
                     </div>
                     <h2 class="text-base font-black text-slate-800 tracking-tight leading-none">
-                        Hello, {{ explode(' ', Auth::user()->name)[0] }}
+                        Hello, Admin
                     </h2>
                 </div>
             </div>

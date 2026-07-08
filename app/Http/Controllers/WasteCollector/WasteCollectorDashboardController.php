@@ -39,7 +39,19 @@ class WasteCollectorDashboardController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
-        return view('collector.dashboard', compact('stats', 'activeTasks', 'availableRequests', 'collector'));
+        // Maps variables for the new UI template
+        $activeRoute = $activeTasks;
+        $completedCount = $stats['completed'];
+        
+        // Map active tasks to the schedule format expected by the view
+        $todaysSchedules = $activeTasks->map(function ($task) {
+            return (object) [
+                'sector' => $task->sector ?? 'General Area',
+                'shift' => $task->scheduled_time ?? 'Morning Shift',
+            ];
+        });
+
+        return view('collector.dashboard', compact('stats', 'activeTasks', 'availableRequests', 'collector', 'activeRoute', 'completedCount', 'todaysSchedules'));
     }
 
     /**

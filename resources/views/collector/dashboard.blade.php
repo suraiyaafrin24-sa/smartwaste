@@ -1,353 +1,288 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.waste_collector')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Collector Control Panel - SmartBin</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
+@section('title', 'Collector Dashboard')
 
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: 'Outfit', sans-serif;
-        }
-    </style>
-</head>
-
-<body class="bg-slate-50 text-slate-800" x-data="{ sidebarOpen: false }">
-
-    <div class="flex h-screen overflow-hidden">
-
-        <!-- Sidebar Navigation -->
-        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-            class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-100 flex flex-col transition-transform duration-300 transform lg:translate-x-0 lg:static shrink-0 shadow-2xl lg:shadow-none">
-            <!-- Brand Logo -->
-            <div class="h-16 flex items-center px-6 border-b border-slate-800 bg-slate-950/40">
-                <a href="/" class="flex items-center space-x-2.5 group">
-                    <div
-                        class="w-8.5 h-8.5 bg-emerald-600 rounded-lg flex items-center justify-center shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-300">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </div>
-                    <span class="text-lg font-bold tracking-tight"><span class="text-white">Smart</span><span
-                            class="text-emerald-505">Bin</span></span>
-                </a>
+@section('content')
+    @if(session('success'))
+        <div
+            class="mb-6 bg-emerald-50 border border-emerald-200 text-emerald-600 px-4 py-3 rounded-xl flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="font-semibold text-sm">{{ session('success') }}</span>
             </div>
+        </div>
+    @endif
 
-            <!-- Navigation Links -->
-            <nav class="flex-grow py-6 px-4 space-y-1.5 overflow-y-auto text-xs font-semibold text-slate-400">
-                <div class="pb-2 text-[10px] font-black uppercase text-slate-655 tracking-wider px-3">Collector Duty
+    @if(session('error'))
+        <div class="mb-6 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="font-semibold text-sm">{{ session('error') }}</span>
+            </div>
+        </div>
+    @endif
+
+    <div class="mb-8 mt-2 flex justify-between items-end">
+        <div>
+            <h1 class="text-2xl font-black tracking-tight text-slate-800 mb-1">My Task Center</h1>
+            <p class="text-[13px] font-medium text-slate-400">Manage your collection route and update pickup status.</p>
+        </div>
+
+    </div>
+
+    <!-- Collector Status Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <!-- Assigned Today Card (Teal) -->
+        <div class="bg-[#19817E] rounded-3xl p-6 shadow-xl shadow-teal-900/20 flex flex-col justify-between h-40 relative overflow-hidden group">
+            <div class="absolute right-4 top-1/2 -translate-y-1/2 opacity-10 group-hover:scale-110 transition duration-500">
+                <svg class="w-20 h-20 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            </div>
+            <div>
+                <div class="text-teal-100 font-bold text-[13px] mb-1.5 flex items-center gap-1.5 leading-none">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Remaining Tasks
                 </div>
+                <div class="text-[32px] font-black text-white leading-none tracking-tight">{{ $activeRoute->count() }}</div>
+            </div>
+            <p class="text-[11px] text-white font-black bg-white/10 w-fit px-3 py-1.5 rounded-lg uppercase tracking-wider">Smart Collection Service</p>
+        </div>
 
-                <a href="{{ route('waste_collector.dashboard') }}"
-                    class="flex items-center space-x-3 px-3 py-3 rounded-xl bg-emerald-600/10 text-emerald-400 font-bold border border-emerald-500/10 transition-colors">
-                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-                    <span>Collector Console</span>
-                </a>
-
-                <a href="{{ route('waste_collector.history') }}"
-                    class="flex items-center space-x-3 px-3 py-3 rounded-xl hover:bg-slate-805 hover:text-white transition-colors">
-                    <i data-lucide="check-square" class="w-4 h-4 text-emerald-500"></i>
-                    <span>Completed Pickups</span>
-                </a>
-
-                <div class="pt-4 pb-2 text-[10px] font-black uppercase text-slate-600 tracking-wider px-3">Rosters</div>
-
-                <a href="{{ route('waste_collector.duty_schedule') }}"
-                    class="flex items-center space-x-3 px-3 py-3 rounded-xl hover:bg-slate-805 hover:text-white transition-colors">
-                    <i data-lucide="calendar" class="w-4 h-4"></i>
-                    <span>Shift Schedules</span>
-                </a>
-
-                <a href="{{ route('waste_collector.payment_collection') }}"
-                    class="flex items-center space-x-3 px-3 py-3 rounded-xl hover:bg-slate-805 hover:text-white transition-colors">
-                    <i data-lucide="dollar-sign" class="w-4 h-4"></i>
-                    <span>Collect Payments</span>
-                </a>
-
-                <a href="{{ route('waste_collector.leave_requests') }}"
-                    class="flex items-center space-x-3 px-3 py-3 rounded-xl hover:bg-slate-805 hover:text-white transition-colors">
-                    <i data-lucide="mail" class="w-4 h-4 text-rose-450"></i>
-                    <span>Request Leave</span>
-                </a>
-
-                <a href="{{ route('waste_collector.settings') }}"
-                    class="flex items-center space-x-3 px-3 py-3 rounded-xl hover:bg-slate-805 hover:text-white transition-colors border-t border-slate-800/80 pt-4 mt-4">
-                    <i data-lucide="settings" class="w-4 h-4"></i>
-                    <span>Crew Settings</span>
-                </a>
-            </nav>
-
-            <!-- Bottom User Details -->
-            <div class="p-4 border-t border-slate-800 bg-slate-950/30 flex items-center space-x-3 shrink-0">
-                <div
-                    class="w-9 h-9 rounded-full bg-emerald-700/20 text-emerald-450 flex items-center justify-center font-bold">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+        <!-- Completed Card (White) -->
+        <div class="bg-white rounded-3xl p-6 border border-gray-50 shadow-sm flex flex-col justify-between h-40 relative overflow-hidden group hover:border-teal-100 transition-colors">
+            <div class="absolute right-4 top-1/2 -translate-y-1/2 opacity-[0.03] group-hover:scale-110 transition duration-500">
+                <svg class="w-20 h-20 text-[#19817E]" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+            </div>
+            <div>
+                <div class="text-[#19817E] font-bold text-[13px] mb-1.5 flex items-center gap-1.5 leading-none">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Successful Collections
                 </div>
-                <div class="flex-grow min-w-0">
-                    <p class="text-xs font-bold text-slate-200 truncate leading-none">{{ auth()->user()->name }}</p>
-                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-1 block">Zoning
-                        Staff</span>
+                <div class="text-[32px] font-black text-slate-800 leading-none tracking-tight">{{ $completedCount }}</div>
+            </div>
+            <p class="text-[12px] text-[#19817E] font-bold leading-none uppercase tracking-widest">Lifetime performance</p>
+        </div>
+
+        <!-- Today's Schedule Card (White) -->
+        <div class="bg-white rounded-3xl p-6 border border-gray-50 shadow-sm flex flex-col justify-between h-40 relative overflow-hidden group hover:border-teal-100 transition-colors">
+             <div class="absolute right-4 top-1/2 -translate-y-1/2 opacity-[0.03] group-hover:scale-110 transition duration-500">
+                <svg class="w-20 h-20 text-[#19817E]" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            </div>
+            <div>
+                <div class="text-[#19817E] font-bold text-[13px] mb-2.5 flex items-center gap-1.5 leading-none">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 00-2 2z"></path></svg>
+                    Today's Schedule
+                </div>
+                <div class="space-y-3">
+                    @forelse($todaysSchedules as $schedule)
+                        @php
+                            $isPassed = false;
+                            $currentTime = date('H:i');
+                            
+                            if ($schedule->shift == 'Morning Shift' && $currentTime >= '10:00') {
+                                $isPassed = true;
+                            } elseif ($schedule->shift == 'Evening Shift' && $currentTime >= '18:00') {
+                                $isPassed = true;
+                            }
+                        @endphp
+                        <div class="flex items-center justify-between border-b border-gray-50 pb-2 last:border-0 last:pb-0">
+                            <div class="text-[16px] font-black text-slate-800 tracking-tight leading-none {{ $isPassed ? 'opacity-50' : '' }}">{{ $schedule->sector }}</div>
+                            @if($isPassed)
+                                <div class="text-[9px] font-black text-slate-400 bg-slate-100 border border-slate-200 px-2 py-1 rounded-md uppercase tracking-widest leading-none">Shift Ended</div>
+                            @else
+                                <div class="text-[9px] font-black text-white bg-[#19817E] px-2 py-1 rounded-md uppercase tracking-widest leading-none">{{ $schedule->shift }}</div>
+                            @endif
+                        </div>
+                    @empty
+                        <div class="text-[16px] font-black text-slate-300 tracking-tight leading-none italic">No Duty Assigned</div>
+                    @endforelse
                 </div>
             </div>
-        </aside>
+            <p class="text-[11px] text-[#19817E] font-bold leading-none uppercase tracking-widest">
+                {{ $todaysSchedules->count() > 0 ? 'Assigned Duty' : 'Rest Day' }}
+            </p>
+        </div>
+    </div>
 
-        <!-- Sidebar overlay for mobile mobile toggle -->
-        <div x-show="sidebarOpen" @click="sidebarOpen = false"
-            class="fixed inset-0 z-40 bg-slate-950/60 lg:hidden transition-opacity duration-300"></div>
+    <!-- Tasks Grid -->
+    <div class="mb-10">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h2 class="text-xl font-black text-slate-800 tracking-tight leading-none">Active Duty Assignments</h2>
+                <p class="text-[11px] font-bold text-[#19817E] uppercase tracking-widest mt-1.5">Directly dispatched by Command Center</p>
+            </div>
+            <div class="bg-[#DCF5F2] px-4 py-2 rounded-xl text-[#19817E] font-black text-[12px] border border-[#19817E]/10">
+                {{ $activeRoute->count() }} Tasks
+            </div>
+        </div>
 
-        <!-- Content Area -->
-        <div class="flex-grow flex flex-col h-screen overflow-y-auto">
-
-            <!-- Top bar -->
-            <header class="h-16 bg-white border-b border-slate-200/80 px-6 flex justify-between items-center shrink-0">
-                <div class="flex items-center space-x-4">
-                    <button @click="sidebarOpen = !sidebarOpen"
-                        class="w-10 h-10 flex items-center justify-center border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-655 lg:hidden transition-colors">
-                        <i data-lucide="menu" class="w-5 h-5"></i>
-                    </button>
-                    <h2 class="text-lg font-bold text-slate-850">Collector Console 🚛</h2>
-                </div>
-
-                <div class="flex items-center space-x-4">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit"
-                            class="flex items-center space-x-1.5 px-4 py-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50 transition-colors shadow-sm">
-                            <i data-lucide="log-out" class="w-4 h-4"></i>
-                            <span>Logout</span>
-                        </button>
-                    </form>
-                </div>
-            </header>
-
-            <!-- Content Inside sidebar frame -->
-            <main class="flex-grow p-6 md:p-8 max-w-6xl w-full mx-auto space-y-8">
-
-                <!-- Welcome Jumbotron -->
-                <div
-                    class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-8 text-white relative overflow-hidden shadow-xl">
-                    <div
-                        class="absolute -right-10 -bottom-10 w-48 h-48 bg-emerald-500 rounded-full blur-[100px] opacity-20">
-                    </div>
-                    <div class="relative z-10 space-y-3 max-w-xl">
-                        <span
-                            class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider rounded-full">Collector
-                            Crew Console</span>
-                        <h2 class="text-3xl font-extrabold tracking-tight">Active Duty:
-                            {{ $collector->sector ?? 'No Sector Assigned' }}</h2>
-                        <p class="text-slate-350 text-sm leading-relaxed">
-                            Review and complete assigned collection orders. You can also self-assign pending requests
-                            submitted by residents in your sector.
-                        </p>
-                    </div>
-                </div>
-
-                @if (session('success'))
-                    <div
-                        class="bg-emerald-50 border border-emerald-200 text-emerald-808 p-4 rounded-2xl flex items-start space-x-3 shadow-sm">
-                        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-605 shrink-0 mt-0.5 animate-pulse"></i>
-                        <span class="text-sm font-semibold">{{ session('success') }}</span>
-                    </div>
-                @endif
-
-                <!-- Stats Section -->
-                <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest leading-none">Shifts & Tasks
-                    Overview</h3>
-                <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                    <div class="bg-white border p-6 rounded-3xl shadow-sm">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-slate-440 font-bold text-xs uppercase tracking-wider">Assigned
-                                Sector</span>
-                            <div
-                                class="w-9 h-9 rounded-xl bg-slate-105 flex items-center justify-center text-slate-650">
-                                <i data-lucide="map" class="w-5 h-5"></i></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @forelse($activeRoute as $index => $request)
+            <div class="bg-white rounded-[40px] p-8 border {{ $index == 0 ? 'border-[#19817E]/20 ring-8 ring-[#19817E]/5' : 'border-gray-50' }} shadow-sm flex flex-col justify-between group hover:border-[#19817E]/10 transition-all duration-300">
+                <div>
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest
+                                @if($request->waste_type == 'Organic') bg-emerald-50 text-emerald-600
+                                @elseif($request->waste_type == 'Recyclable') bg-blue-50 text-blue-600
+                                @elseif($request->waste_type == 'Hazardous') bg-red-50 text-red-600
+                                @else bg-gray-50 text-gray-600 @endif">
+                                {{ $request->waste_type }}
+                            </span>
+                            @if(strtotime($request->scheduled_date) < strtotime(date('Y-m-d')))
+                                <span class="px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest bg-red-50 text-red-600 border border-red-100">Collection Date Expired</span>
+                            @endif
                         </div>
-                        <h4 class="text-2xl font-black text-slate-900">{{ $collector->sector ?? 'Unassigned' }}</h4>
-                        <p class="text-xs text-slate-500 mt-1">Primary zoning jurisdiction</p>
+                        <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Job #{{ $index + 1 }}</span>
                     </div>
+                    <h4 class="text-base font-black text-slate-800 tracking-tight mb-1">{{ $request->road ?? 'General Pickup' }}</h4>
+                    <p class="text-[11px] text-slate-400 font-medium mb-4 line-clamp-1">
+                        {{ $request->address }} @if($request->sector) • {{ $request->sector }} @endif @if($request->scheduled_date) • {{ \Carbon\Carbon::parse($request->scheduled_date)->format('M d') }} @endif
+                    </p>
+                    
+                    @php
+                        $shiftEnded = false;
+                        $outsideShiftWindow = false;
+                        $shiftWindowMsg = '';
+                        $today = date('Y-m-d');
+                        $currentTime = date('H:i');
+                        $reqDate = \Carbon\Carbon::parse($request->scheduled_date)->format('Y-m-d');
 
-                    <div class="bg-white border p-6 rounded-3xl shadow-sm">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-slate-440 font-bold text-xs uppercase tracking-wider">Pending in
-                                Sector</span>
-                            <div class="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
-                                <i data-lucide="clock" class="w-5 h-5"></i></div>
+                        if ($reqDate < $today) {
+                            $shiftEnded = true;
+                        } elseif ($reqDate == $today) {
+                            if ($request->scheduled_time == 'Morning Shift') {
+                                if ($currentTime >= '10:00') {
+                                    $shiftEnded = true;
+                                } elseif ($currentTime < '07:00') {
+                                    $outsideShiftWindow = true;
+                                    $shiftWindowMsg = 'Available at 7:00 AM';
+                                }
+                            } elseif ($request->scheduled_time == 'Evening Shift') {
+                                if ($currentTime >= '18:00') {
+                                    $shiftEnded = true;
+                                } elseif ($currentTime < '16:00') {
+                                    $outsideShiftWindow = true;
+                                    $shiftWindowMsg = 'Available at 4:00 PM';
+                                }
+                            }
+                        } elseif ($reqDate > $today) {
+                            // future date — handled separately by $isFuture below
+                        }
+                    @endphp
+                    <div class="flex items-center justify-between mb-6 p-2.5 bg-gray-50 rounded-2xl">
+                        <div class="flex items-center gap-2">
+                            <div class="w-1.5 h-1.5 rounded-full bg-[#19817E] animate-pulse"></div>
+                            <span class="text-[10px] font-black text-[#19817E] uppercase tracking-widest">{{ strtoupper($request->scheduled_time ?? 'Scheduled') }} DUTY</span>
                         </div>
-                        <h4 class="text-2xl font-black text-amber-600">{{ $stats['sector_pending'] }}</h4>
-                        <p class="text-xs text-slate-500 mt-1">Available for self-assigning</p>
-                    </div>
-
-                    <div class="bg-white border p-6 rounded-3xl shadow-sm">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-slate-440 font-bold text-xs uppercase tracking-wider">Active
-                                Assignments</span>
-                            <div
-                                class="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
-                                <i data-lucide="truck" class="w-5 h-5"></i></div>
-                        </div>
-                        <h4 class="text-2xl font-black text-emerald-600">{{ $stats['assigned'] }}</h4>
-                        <p class="text-xs text-slate-500 mt-1">Jobs on route</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    <!-- Left: Active assignments (8 cols) -->
-                    <div class="lg:col-span-7 bg-white border rounded-3xl p-6 shadow-sm">
-                        <h3 class="text-md font-bold text-slate-900 mb-6 flex items-center space-x-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-550 animate-ping"></span>
-                            <span>Your Active Collections ({{ $activeTasks->count() }})</span>
-                        </h3>
-
-                        @if ($activeTasks->isEmpty())
-                            <div class="py-16 text-center space-y-3">
-                                <div
-                                    class="w-12 h-12 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center mx-auto">
-                                    <i data-lucide="inbox" class="w-6 h-6"></i></div>
-                                <h4 class="font-bold text-slate-800 text-sm">No active tasks</h4>
-                                <p class="text-slate-400 text-xs max-w-xs mx-auto">Select a pending pickup from your sector
-                                    list on the right to start routes.</p>
-                            </div>
-                        @else
-                            <div class="space-y-4">
-                                @foreach($activeTasks as $task)
-                                    <div
-                                        class="p-5 border border-slate-100 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-slate-205 transition-all">
-                                        <div class="space-y-1">
-                                            <div class="flex items-center space-x-2">
-                                                <span
-                                                    class="text-xs font-mono text-slate-440">#{{ str_pad($task->id, 5, '0', STR_PAD_LEFT) }}</span>
-                                                <span
-                                                    class="px-2 py-0.5 bg-slate-900 text-white rounded text-[10px] font-black uppercase tracking-wider font-mono">{{ $task->waste_type }}</span>
-                                            </div>
-                                            <h4 class="font-extrabold text-slate-900 text-sm mt-1">Citizen:
-                                                {{ $task->user->name }}</h4>
-                                            <p class="text-xs text-slate-500 font-medium">Pickup: {{ $task->scheduled_date }} at
-                                                {{ $task->scheduled_time }}</p>
-                                            <p class="text-xs text-slate-850 font-bold block pt-1 flex items-center space-x-1">
-                                                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-emerald-600"></i>
-                                                <span>{{ $task->address }}</span>
-                                            </p>
-                                            @if($task->notes)
-                                                <p class="text-[11px] text-slate-400 italic">"{{ $task->notes }}"</p>
-                                            @endif
-                                        </div>
-                                        <div class="w-full sm:w-auto shrink-0 select-none">
-                                            <form method="POST"
-                                                action="{{ route('waste_collector.requests.complete', $task->id) }}">
-                                                @csrf
-                                                <button type="submit"
-                                                    class="w-full py-2.5 px-4 bg-emerald-650 hover:bg-emerald-600 text-white font-bold rounded-xl transition-all shadow-md text-xs flex items-center justify-center space-x-1">
-                                                    <i data-lucide="check" class="w-4 h-4"></i>
-                                                    <span>Mark Completed</span>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
-                    </div>
-
-                    <!-- Right: Pending sector tasks to pick up (5 cols) -->
-                    <div class="lg:col-span-5 bg-white border rounded-3xl p-6 shadow-sm">
-                        <h3 class="text-md font-bold text-slate-905 mb-6 flex items-center space-x-2">
-                            <i data-lucide="clipboard-list" class="w-5 h-5 text-amber-500"></i>
-                            <span>Available in {{ $collector->sector ?? 'Sector' }}
-                                ({{ $availableRequests->count() }})</span>
-                        </h3>
-
-                        @if ($availableRequests->isEmpty())
-                            <div class="py-16 text-center space-y-3">
-                                <div
-                                    class="w-12 h-12 rounded-xl bg-slate-50 text-slate-450 flex items-center justify-center mx-auto">
-                                    <i data-lucide="smile" class="w-6 h-6"></i></div>
-                                <h4 class="font-bold text-slate-800 text-sm">Zone is completely clean!</h4>
-                                <p class="text-slate-400 text-xs max-w-xs mx-auto">No pending collection requests are
-                                    outstanding in your assigned sector.</p>
-                            </div>
-                        @else
-                            <div class="space-y-4">
-                                @foreach($availableRequests as $req)
-                                    <div
-                                        class="p-4 border border-slate-100 rounded-2xl space-y-3 bg-slate-50/50 hover:border-slate-200 transition-all font-semibold">
-                                        <div class="flex justify-between items-start">
-                                            <div>
-                                                <span
-                                                    class="text-xs font-mono text-slate-455">#{{ str_pad($req->id, 5, '0', STR_PAD_LEFT) }}</span>
-                                                <h4 class="font-extrabold text-slate-900 text-sm mt-0.5">{{ $req->waste_type }}
-                                                </h4>
-                                            </div>
-                                            @if($req->weight)
-                                                <span
-                                                    class="text-[11px] font-mono font-bold bg-slate-200/60 text-slate-650 px-2 py-0.5 rounded-md">{{ $req->weight }}
-                                                    kg</span>
-                                            @endif
-                                        </div>
-                                        <div class="text-xs space-y-1 text-slate-600 leading-normal font-medium">
-                                            <div class="flex items-center space-x-1.5">
-                                                <i data-lucide="user" class="w-3.5 h-3.5 text-slate-440"></i>
-                                                <span>{{ $req->user->name }}</span>
-                                            </div>
-                                            <div class="flex items-center space-x-1.5 font-semibold">
-                                                <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-440"></i>
-                                                <span>{{ $req->scheduled_date }} ({{ $req->scheduled_time }})</span>
-                                            </div>
-                                            <div class="flex items-start space-x-1.5 pt-1">
-                                                <i data-lucide="map-pin"
-                                                    class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
-                                                <span class="text-slate-800">{{ $req->address }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="pt-2">
-                                            <form method="POST"
-                                                action="{{ route('waste_collector.requests.accept', $req->id) }}">
-                                                @csrf
-                                                <button type="submit"
-                                                    class="w-full py-2 bg-slate-905 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow transition-colors flex items-center justify-center space-x-1">
-                                                    <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
-                                                    <span>Assign to Me</span>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
+                        @if($shiftEnded)
+                            <span class="text-[9px] font-black text-slate-400 bg-slate-100 border border-slate-200 px-2 py-1 rounded-md uppercase tracking-widest leading-none">Shift Ended</span>
                         @endif
                     </div>
                 </div>
-            </main>
+                
+                <div class="flex items-center gap-3 pt-5 border-t border-gray-50">
+                    @php
+                        $isFuture = strtotime($request->scheduled_date) > strtotime(date('Y-m-d'));
+                    @endphp
 
-            <!-- Footer -->
-            <footer class="bg-white border-t border-slate-200/80 p-6 text-center text-xs text-slate-400 mt-auto">
-                &copy; {{ date('Y') }} SmartBin Systems. All rights reserved.
-            </footer>
+                    @if($isFuture)
+                        <div class="flex-1 w-full text-center py-3 px-4 rounded-xl bg-gray-100 text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] border border-gray-200 cursor-not-allowed" title="Available on {{ \Carbon\Carbon::parse($request->scheduled_date)->format('M d') }}">
+                            Available {{ \Carbon\Carbon::parse($request->scheduled_date)->format('M d') }}
+                        </div>
+                    @else
+                        <form action="{{ route('waste_collector.requests.complete', $request->id) }}" method="POST" class="flex-1">
+                            @csrf
+                            <button type="submit" class="w-full bg-[#19817E] text-white text-[10px] font-black py-3 px-4 rounded-xl hover:bg-teal-700 transition shadow-lg shadow-teal-700/10 uppercase tracking-[0.2em]">
+                                Collected
+                            </button>
+                        </form>
+                    @endif
+                </div>
+            </div>
+            @empty
+            <div class="col-span-full py-16 text-center">
+                 <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">No active assignments for today</p>
+            </div>
+            @endforelse
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Request Details Modal -->
+    <div id="detailsModal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-[9999] hidden flex items-center justify-center p-6">
+        <div class="bg-white rounded-[24px] w-full max-w-md overflow-hidden shadow-2xl transform transition-all">
+            <div class="px-6 py-4 bg-gray-50 border-b border-gray-100 flex justify-between items-center">
+                <h3 class="text-base font-black text-gray-900 tracking-tight">Collection Details</h3>
+                <button onclick="closeDetailsModal()" class="text-gray-400 hover:text-gray-600 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Resident Name</p>
+                        <p id="modalUser" class="text-xs font-bold text-gray-800"></p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Contact Number</p>
+                        <p id="modalPhone" class="text-xs font-bold text-teal-600"></p>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Pickup Address</p>
+                    <p id="modalAddress" class="text-xs font-medium text-gray-600 leading-tight"></p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Waste Category</p>
+                        <p id="modalType" class="text-xs font-bold text-gray-800"></p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Scheduled Time</p>
+                        <p id="modalSchedule" class="text-xs font-bold text-gray-800"></p>
+                    </div>
+                </div>
+                <div class="p-3 bg-amber-50/50 rounded-xl border border-amber-100/50">
+                    <p class="text-[9px] font-black text-amber-600 uppercase tracking-widest mb-1">Special Instructions</p>
+                    <p id="modalDetails" class="text-[11px] font-medium text-amber-800 leading-normal"></p>
+                </div>
+            </div>
+            <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end">
+                <button onclick="closeDetailsModal()" class="px-5 py-2 bg-gray-900 text-white text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-black transition">
+                    Close
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
+        function openRequestModal(btn) {
+            document.getElementById('modalUser').innerText = btn.getAttribute('data-user');
+            document.getElementById('modalPhone').innerText = btn.getAttribute('data-phone');
+            document.getElementById('modalAddress').innerText = btn.getAttribute('data-address');
+            document.getElementById('modalType').innerText = btn.getAttribute('data-type');
+            document.getElementById('modalSchedule').innerText = btn.getAttribute('data-date') + ' (' + btn.getAttribute('data-time') + ')';
+            document.getElementById('modalDetails').innerText = btn.getAttribute('data-details');
+            
+            const modal = document.getElementById('detailsModal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDetailsModal() {
+            const modal = document.getElementById('detailsModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeDetailsModal();
         });
     </script>
-</body>
-
-</html>
+@endsection

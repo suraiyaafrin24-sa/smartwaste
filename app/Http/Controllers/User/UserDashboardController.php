@@ -32,7 +32,11 @@ class UserDashboardController extends Controller
             ->limit(5)
             ->get();
 
-        return view('user.dashboard', compact('stats', 'recentRequests'));
+        $totalRequests = $stats['total'];
+        $pendingPickups = $stats['pending'];
+        $completedRequestsCount = $stats['completed'];
+
+        return view('user.dashboard', compact('stats', 'recentRequests', 'totalRequests', 'pendingPickups', 'completedRequestsCount'));
     }
 
     /**

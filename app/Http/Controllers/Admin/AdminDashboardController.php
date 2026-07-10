@@ -62,7 +62,7 @@ class AdminDashboardController extends Controller
         }
 
         $users = $usersQuery->orderBy('id', 'desc')->paginate(10);
-        return view('admin.users.index', compact('users', 'search'));
+        return view('admin.users.user management', compact('users', 'search'));
     }
 
     /**
